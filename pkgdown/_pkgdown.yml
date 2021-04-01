@@ -31,10 +31,10 @@ navbar:
             text: Articles
             menu:
                 - text: General topics
+                - text: Testing modules
+                  href: articles/testing.html
                 - text: Using compiled code
                   href: articles/compiled-code.html
-                - text: Modules and packages compared
-                  href: articles/packages.html
                 - text: Migration guide for version 1.0
                   href: articles/migration.html
                 - text: ---

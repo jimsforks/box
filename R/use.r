@@ -223,6 +223,8 @@ use = function (...) {
 #' @keywords internal
 #' @name importing
 use_one = function (declaration, alias, caller) {
+    # Permit empty expression resulting from trailing comma.
+    if (identical(declaration, quote(expr =)) && identical(alias, '')) return()
     spec = parse_spec(declaration, alias)
     info = rethrow_on_error(find_mod(spec, caller), sys.call(-1L))
     load_and_register(spec, info, caller)
@@ -295,7 +297,7 @@ export_and_attach = function (spec, info, mod_ns, caller) {
     lockEnvironment(mod_exports, bindings = TRUE)
 
     assign_alias(spec, mod_exports, caller)
-    attach_to_caller(spec, mod_exports, caller)
+    attach_to_caller(spec, info, mod_exports, mod_ns, caller)
 }
 
 #' @rdname importing
@@ -370,11 +372,11 @@ mod_export_names = function (info, mod_ns) {
 }
 
 #' @rdname importing
-attach_to_caller = function (spec, mod_exports, caller) {
-    attach_list = attach_list(spec, ls(mod_exports))
+attach_to_caller = function (spec, info, mod_exports, mod_ns, caller) {
+    attach_list = attach_list(spec, names(mod_exports))
     if (is.null(attach_list)) return()
 
-    import_env = find_import_env(caller, spec)
+    import_env = find_import_env(caller, spec, info, mod_ns)
     attr(mod_exports, 'attached') = environmentName(import_env)
     import_into_env(import_env, names(attach_list), mod_exports, attach_list)
 }

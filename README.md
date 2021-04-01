@@ -2,7 +2,7 @@
 
 
 
-# box <img src="man/figures/box.svg" align="right" alt="" width="120"/>
+# box <img src="man/figures/logo.png" align="right" alt="" width="120"/>
 
 > Write Reusable, Composable and Modular R Code
 
@@ -18,14 +18,14 @@ install.packages('box')
 Alternatively, the current development version can be installed from GitHub.
 Note that the main branch cannot be installed directly, since it intentionally
 misses generated files; instead, ‘box’ needs to be installed from the
-auto-generated `devel` branch:
+auto-generated `dev` branch:
 
 
 ```r
 if (! requireNamespace('pak') {
     install.packages('pak', repos = 'https://r-lib.github.io/p/pak/dev/')
 }
-pak::pkg_install('klmr/box@devel')
+pak::pkg_install('klmr/box@dev')
 ```
 
 ## 🥜 Usage in a nutshell
@@ -41,7 +41,7 @@ pak::pkg_install('klmr/box@devel')
 
 ### Reusable code modules
 
-Code doesn’t have to be wrapped into a package to be reusable. With ‘box’,
+Code doesn’t have to be wrapped into an R package to be reusable. With ‘box’,
 regular R files form reusable **R modules** that can be used elsewhere. Just put
 the **export directive** `#' @export` in front of names that should be exported,
 e.g.:

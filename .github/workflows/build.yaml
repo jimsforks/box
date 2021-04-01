@@ -1,8 +1,9 @@
-name: Build
+name: Dev build
 
 on:
   push:
-    branches: [ $default-branch ]
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -18,8 +19,7 @@ jobs:
         uses: r-lib/actions/setup-r@v1
 
       - name: Install external library dependencies
-        run: |
-          sudo apt-get install libcurl4-openssl-dev
+        run: sudo apt-get install -y libcurl4-openssl-dev
 
       - name: Query dependencies
         run: |
@@ -32,8 +32,8 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ${{ env.R_LIBS_USER }}
-          key: ${{ hashFiles('.github/r-version') }}-1-${{ hashFiles('.github/r-depends.rds') }}
-          restore-keys: ${{ hashFiles('.github/r-version') }}-1-
+          key: ${{ hashFiles('.github/r-version') }}-2-${{ hashFiles('.github/r-depends.rds') }}
+          restore-keys: ${{ hashFiles('.github/r-version') }}-2-
 
       - name: Install R package dependencies
         run: |
@@ -55,8 +55,8 @@ jobs:
           git config user.name klmr
           git config user.email klmr@users.noreply.github.com
           git remote set-url --push origin https://klmr:$GITHUB_TOKEN@github.com/klmr/box.git
-          git branch -D devel 2>/dev/null || :
-          git checkout -b devel
+          git branch -D dev 2>/dev/null || :
+          git checkout -b dev
           git add --force NAMESPACE man
           git commit -m 'Create a development release'
-          git push --force --set-upstream origin devel
+          git push --force --set-upstream origin dev
